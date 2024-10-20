@@ -17,14 +17,8 @@ public class State {
     }
 
     public boolean isGoal(Set<Position> goalCratePositions) {
-        boolean isGoal;
 
-        if (this.cratePositions.equals(goalCratePositions))
-            isGoal = true;
-        else
-            isGoal = false;
-
-        return isGoal;
+        return this.cratePositions.equals(goalCratePositions);
     }
 
     public boolean isDeadlock(char[][] mapData) {
@@ -51,11 +45,8 @@ public class State {
     @Override
     public boolean equals(Object obj) {
         State state = (State) obj;
-
-        if (this.playerPosition.equals(state.getPlayerPosition()) && this.cratePositions.equals(state.getCratePositions()))
-            return true;
-        else
-            return false;
+        
+        return this.playerPosition.equals(state.getPlayerPosition()) && this.cratePositions.equals(state.getCratePositions());
     }
 
     @Override
