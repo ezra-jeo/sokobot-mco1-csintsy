@@ -7,7 +7,6 @@ import java.util.List;
 
 // The State class represents the position of the player and crates with respect to the level.
 public class State {
-    // Add previous state?
     private Position playerPosition;
     private Set<Position> cratePositions;
 
@@ -39,7 +38,8 @@ public class State {
             if ((mapData[cratePosition.getX() - 1][cratePosition.getY()] == '#' ||
                  mapData[cratePosition.getX() + 1][cratePosition.getY()] == '#') &&
                 (mapData[cratePosition.getX()][cratePosition.getY() + 1] == '#' ||
-                 mapData[cratePosition.getX()][cratePosition.getY() - 1] == '#'))
+                 mapData[cratePosition.getX()][cratePosition.getY() - 1] == '#') &&
+                 (mapData[cratePosition.getX()][cratePosition.getY()] != '.'))
                 isDeadlock = true;
 
             i++;
