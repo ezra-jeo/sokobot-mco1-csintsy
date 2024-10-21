@@ -4,13 +4,13 @@ public class SearchNode {
     private SearchNode prevNode;
     private State state;
     private int cost;
-    private String move;
+    private char action;
 
-    public SearchNode(SearchNode prevNode, State state, int cost, String move) {
+    public SearchNode(SearchNode prevNode, State state, int cost, char action) {
         this.prevNode = prevNode;
         this.state = state;
         this.cost = cost; // incurred cost
-        this.move = move;
+        this.action = action;
     }
 
     public SearchNode getPrevNode() {
@@ -25,8 +25,8 @@ public class SearchNode {
         return this.cost;
     }
     
-    public String getMove() {
-        return this.move;
+    public char getAction() {
+        return this.action;
     }
 
     @Override
