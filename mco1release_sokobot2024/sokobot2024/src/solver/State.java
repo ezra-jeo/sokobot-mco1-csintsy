@@ -9,9 +9,9 @@ import java.util.Objects;
 // The State class represents the position of the player and crates with respect to the level.
 public class State {
     private Position playerPosition;
-    private HashSet<Position> cratePositions;
+    private Set<Position> cratePositions;
 
-    public State(Position playerPosition, HashSet<Position> cratePositions) {
+    public State(Position playerPosition, Set<Position> cratePositions) {
         this.playerPosition = playerPosition;
         this.cratePositions = cratePositions;
     }
@@ -67,7 +67,7 @@ public class State {
         return this.playerPosition;
     }
 
-    public HashSet<Position> getCratePositions() {
+    public Set<Position> getCratePositions() {
         return this.cratePositions;
     }
 }

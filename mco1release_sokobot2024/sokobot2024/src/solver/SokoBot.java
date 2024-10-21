@@ -33,9 +33,10 @@ public class SokoBot {
         Set<Position> targets = getGoalCratePositions(mapData);
 
         State initState = new State(initPlayer, crates);
-        Search search = new Search(initState, walls, targets, mapData);
+        Heuristics heuristics = new Heuristics(targets);
+        Search search = new Search(initState, walls, targets, mapData, heuristics);
         
-        return search.bfs();
+        return search.astar();
         //return "ududududududududududud";
     }
 
