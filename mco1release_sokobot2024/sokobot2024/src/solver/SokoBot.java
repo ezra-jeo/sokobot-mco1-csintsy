@@ -18,11 +18,11 @@ public class SokoBot {
         * sequence
         * that just moves left and right repeatedly.
         */
-        try {
-            Thread.sleep(3000);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        // try {
+        //     Thread.sleep(3000);
+        // } catch (Exception ex) {
+        //     ex.printStackTrace();
+        // }
 
         Position initPlayer = getPlayerPosition(itemsData);
 

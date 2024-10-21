@@ -28,7 +28,9 @@ public class Search {
         ArrayList<String> actions;
         String path = "";
         boolean goal = false;
+        
         frontier.offer(curNode);
+
         while (!frontier.isEmpty() && !goal) {
             curNode = frontier.poll();
             explored.add(curNode.getState());
@@ -38,24 +40,25 @@ public class Search {
                 System.out.println("goal");
                 goal = true;
             }
+            else {
+                actions = getActionList(curNode.getState());
 
-            actions = getActionList(curNode.getState());
-
-            for (String action : actions) {
-                childNode = getChild(curNode, action.charAt(0));
-
-                if (childNode != null && childNode.getState() != null) {
-                    System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
-                    System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
-                    if (!explored.contains(childNode.getState()) && !frontier.contains(childNode) && !childNode.getState().isDeadlock(mapData)) {
-                        System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
-
-                        frontier.offer(childNode);
+                for (String action : actions) {
+                    childNode = getChild(curNode, action.charAt(0));
+    
+                    if (childNode != null && childNode.getState() != null) {
+                        System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
+                        System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
+                        if (!explored.contains(childNode.getState()) && !frontier.contains(childNode) && !childNode.getState().isDeadlock(mapData)) {
+                            System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
+    
+                            frontier.offer(childNode);
+                        }
                     }
                 }
             }
         }
-        path = buildSolution(curNode);
+
         return path;
     }
 
@@ -159,54 +162,19 @@ public class Search {
         Set<Position> crates = state.getCratePositions();
         Position newPlayer;
         Position newBox;
-        
-        // u
-        newPlayer = getNewPosition(state.getPlayerPosition(), 'u');
-        newBox = getNewPosition(newPlayer, 'u');
-        
-        if (!this.walls.contains(newPlayer)) {
-            // if there's no box on top of the player or there is a box but there's no box or wall stopping it.
+        String[] possibleMoves = {"u", "d", "l", "r"};
 
-            if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
-                actions.add("u");
+        for (String move : possibleMoves) {
+            
+            newPlayer = getNewPosition(state.getPlayerPosition(), move.charAt(0));
+            newBox = getNewPosition(newPlayer, move.charAt(0));
+
+            if (!this.walls.contains(newPlayer)) {
+                if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !this.walls.contains(newBox)))) {
+                    actions.add(move);
+                }
             }
-        } 
-
-        // d
-        newPlayer = getNewPosition(state.getPlayerPosition(), 'd');
-        newBox = getNewPosition(newPlayer, 'd');
-        
-        if (!this.walls.contains(newPlayer)) {
-            // if there's no box below the player or there is a box but there's no box or wall stopping it.
-
-            if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
-                actions.add("d");
-            }
-        } 
-
-        // l
-        newPlayer = getNewPosition(state.getPlayerPosition(), 'l');
-        newBox = getNewPosition(newPlayer, 'l');
-        
-        if (!this.walls.contains(newPlayer)) {
-            // if there's no box to the left of the player or there is a box but there's no box or wall stopping it.
- 
-            if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
-                actions.add("l");
-            }
-        } 
-
-        // r
-        newPlayer = getNewPosition(state.getPlayerPosition(), 'r');
-        newBox = getNewPosition(newPlayer, 'r');
-        
-        if (!this.walls.contains(newPlayer)) {
-            // if there's no box to the right of the player or there is a box but there's no box or wall stopping it.
-
-            if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
-                actions.add("r");
-            }
-        } 
+        }
 
         return actions;
     }
