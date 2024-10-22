@@ -45,12 +45,14 @@ public class State {
     @Override
     public boolean equals(Object object) {
         State s = (State)object;
+        if (Objects.equals(this.cratePositions, s.getCratePositions()))
+            return true;
 	    if (object == this || this.hashCode()== s.hashCode()) 
             return true;
 	    if (object == null || this.getClass() != object.getClass()) 
             return false;
 
-	    return  Objects.equals(this.playerPosition, s.getPlayerPosition()) && Objects.equals(this.cratePositions, s.getCratePositions());
+	    return Objects.equals(this.playerPosition, s.getPlayerPosition());
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Heuristics {
     public Heuristics(Set<Position> targets) {
         this.targets = targets;
     }
-    
+
     public int manhattan(Position a, Position b) {
         int x1 = a.getX();
         int y1 = a.getY();
@@ -20,17 +20,26 @@ public class Heuristics {
     }
 
     public double getDist(Position entity, Set<Position> objSet) {
-        double minDist = -1; // as initial value
+        double minDist = Double.MAX_VALUE; // as initial value
 
         // gets the closest object to entity given an object set;
         for (Position objPos : objSet) {
-            double dist = euclidean(entity, objPos);
+            double dist = manhattan(entity, objPos);
 
-            if (minDist < 0 || dist < minDist) 
+            if (dist < minDist) 
                 minDist = dist;
         }
 
         return minDist;
+    }
+
+    public double euclidean(Position a, Position b) {
+        int x1 = a.getX();
+        int y1 = a.getX();
+        int x2 = b.getX();
+        int y2 = b.getY();
+
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 
     public double getHeuristics(State state) {
@@ -48,15 +57,5 @@ public class Heuristics {
 
         return heuristic;
     }
-
-    public double euclidean(Position a, Position b) {
-        int x1 = a.getX();
-        int y1 = a.getX();
-        int x2 = b.getX();
-        int y2 = b.getY();
-
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-    }
-
 
 }
