@@ -9,6 +9,7 @@ public class Heuristics {
     public Heuristics(Set<Position> targets) {
         this.targets = targets;
     }
+    
     public int manhattan(Position a, Position b) {
         int x1 = a.getX();
         int y1 = a.getY();
@@ -23,9 +24,9 @@ public class Heuristics {
 
         // gets the closest object to entity given an object set;
         for (Position objPos : objSet) {
-            double dist = manhattan(entity, objPos);
+            double dist = euclidean(entity, objPos);
 
-            if (minDist < 0 ||dist < minDist) 
+            if (minDist < 0 || dist < minDist) 
                 minDist = dist;
         }
 

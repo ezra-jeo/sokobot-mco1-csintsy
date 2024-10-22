@@ -92,16 +92,12 @@ public class Search {
                     childNode = getChild(curNode, action.charAt(0));
     
                     if (childNode != null && childNode.getState() != null) {
-                        System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
-                        System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
                         if (!explored.contains(childNode.getState()) && !frontier.contains(childNode) && !childNode.getState().isDeadlock(mapData)) {
-                            System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
-    
                             frontier.offer(childNode);
                         }
                         else {
-                            // Check if cost is lesser than the one in the frontier if it exists
 
+                            // Check if cost of node is lesser than the one in the frontier (if it exists)
                             for (SearchNode node : frontier) {
                                 if (childNode == node && childNode.getCost() < node.getCost())
                                     node = childNode;
@@ -112,9 +108,7 @@ public class Search {
                 }
             }
         }
-
         return path;
-        
     }
 
     public String buildSolution(SearchNode node) {
@@ -125,7 +119,7 @@ public class Search {
             actionSequence = actionSequence + node.getAction();
             node = node.getPrevNode();
         }
-  
+
         actionSequenceReverse.append(actionSequence);
         actionSequenceReverse.reverse();
         actionSequence = actionSequenceReverse.toString();
@@ -235,12 +229,10 @@ public class Search {
                 }
             }
         }
-
         return actions;
     }
 
-    // Comparators
-
+    // Comparator
     public static Comparator<SearchNode> astarComparator = new Comparator<SearchNode>() {
         @Override
         public int compare(SearchNode node1, SearchNode node2) {

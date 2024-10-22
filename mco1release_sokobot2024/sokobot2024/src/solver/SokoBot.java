@@ -12,32 +12,16 @@ public class SokoBot {
     public String solveSokobanPuzzle(int width, int height, char[][] mapData, char[][] itemsData) {
     /*
         * YOU NEED TO REWRITE THE IMPLEMENTATION OF THIS METHOD TO MAKE THE BOT SMARTER
-        */
-    /*
-        * Default stupid behavior: Think (sleep) for 3 seconds, and then return a
-        * sequence
-        * that just moves left and right repeatedly.
-        */
-        // try {
-        //     Thread.sleep(3000);
-        // } catch (Exception ex) {
-        //     ex.printStackTrace();
-        // }
-
+    */
         Position initPlayer = getPlayerPosition(itemsData);
-
-        System.out.println("Start " + initPlayer.getX() + " " + initPlayer.getY());
-
         HashSet<Position> crates = getCratePositions(itemsData);
         Set<Position> walls = getWallPositions(mapData);
         Set<Position> targets = getGoalCratePositions(mapData);
-
         State initState = new State(initPlayer, crates);
         Heuristics heuristics = new Heuristics(targets);
         Search search = new Search(initState, walls, targets, mapData, heuristics);
         
         return search.astar();
-        //return "ududududududududududud";
     }
 
     public boolean isValidAction(Position nextPosition, char[][] mapData) {
