@@ -52,9 +52,11 @@ public class Search {
                         }
                         else {
                             // Check if cost of node is lesser than the one in the frontier (if it exists)
-                            for (SearchNode node : frontier) {
-                                if (childNode == node && childNode.getCost() < node.getCost())
-                                    node = childNode;
+                            if (frontier.contains(childNode)) {
+                                for (SearchNode node : frontier) {
+                                    if (childNode == node && childNode.getCost() < node.getCost())
+                                        node = childNode;
+                                }
                             }
                         }
                     }
