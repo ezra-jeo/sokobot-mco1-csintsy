@@ -1,0 +1,281 @@
+    // public String bfs() {
+	// 	long startTime = System.currentTimeMillis();
+	// 	int totalNode = 1;
+	// 	int redundant = 0;
+    //     String path = "";
+	// 	SearchNode node = new SearchNode(null, this.initState, 0, '\0'); //node with state=problem.INITIAL-STATE, PATH-COST = 0
+	// 	if (node.getState().isGoal(targets)) //if problem.GOAL-TEST(node.state) then return SOLUTION(node)
+	// 		return buildSolution(node);
+		
+	// 	Set<State> explored = new HashSet<State>(); //empty set
+	// 	Queue<SearchNode> fringe = new LinkedList<SearchNode>();
+	// 	fringe.add(node);
+	// 	ArrayList<String> actions;
+	// 	SearchNode child;
+	// 	while (!fringe.isEmpty()) {
+	// 		node = fringe.poll(); //node <- POP(frontier)
+	// 		//System.out.println("Player at ("+n.state.player.row+","+n.state.player.col+")");
+	// 		explored.add(node.getState()); //add node.STATE to explored
+			
+	// 		actions = getActionList(node.getState()); //get actions
+	// 		for (int i=0; i<actions.size(); i++) { //for each action in problem.ACTIONS(node.STATE) do
+	// 			child = getChild(node, actions.get(i).charAt(0)); //child <- CHILD-NODE(problem,node,action)
+	// 			if(child!=null && child.getState()!=null) {
+	// 				totalNode++;
+	// 				//if child.STATE is not in explored or fringe, then
+	// 				if ((!explored.contains(child.getState()))&&(!fringe.contains(child))) {
+	// 					path = buildSolution(node);
+	// 					if (child.getState().isGoal(targets))
+	// 						return path;
+	// 					if (!child.getState().isDeadlock(mapData)) // check deadlock state
+	// 						fringe.add(child);
+	// 				}
+	// 				else
+	// 					redundant++;
+	// 			}
+	// 		}
+	// 	}
+	// 	return path;
+	// }
+
+	        // // u
+        // newPlayer = getNewPosition(state.getPlayerPosition(), 'u');
+        // newBox = getNewPosition(newPlayer, 'u');
+        
+        // if (!this.walls.contains(newPlayer)) {
+        //     // if there's no box on top of the player or there is a box but there's no box or wall stopping it.
+
+        //     if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
+        //         actions.add("u");
+        //     }
+        // } 
+
+        // // d
+        // newPlayer = getNewPosition(state.getPlayerPosition(), 'd');
+        // newBox = getNewPosition(newPlayer, 'd');
+        
+        // if (!this.walls.contains(newPlayer)) {
+        //     // if there's no box below the player or there is a box but there's no box or wall stopping it.
+
+        //     if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
+        //         actions.add("d");
+        //     }
+        // } 
+
+        // // l
+        // newPlayer = getNewPosition(state.getPlayerPosition(), 'l');
+        // newBox = getNewPosition(newPlayer, 'l');
+        
+        // if (!this.walls.contains(newPlayer)) {
+        //     // if there's no box to the left of the player or there is a box but there's no box or wall stopping it.
+ 
+        //     if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
+        //         actions.add("l");
+        //     }
+        // } 
+
+        // // r
+        // newPlayer = getNewPosition(state.getPlayerPosition(), 'r');
+        // newBox = getNewPosition(newPlayer, 'r');
+        
+        // if (!this.walls.contains(newPlayer)) {
+        //     // if there's no box to the right of the player or there is a box but there's no box or wall stopping it.
+
+        //     if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newBox) && !walls.contains(newBox)))) {
+        //         actions.add("r");
+        //     }
+        // } 
+
+        //System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
+        //System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
+        //System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
+        //System.out.println("Start " + initPlayer.getX() + " " + initPlayer.getY());
+
+            // public String bfs() {
+    //     Set<State> explored = new HashSet<State>();
+    //     Queue<SearchNode> frontier = new LinkedList<SearchNode>();
+    //     SearchNode curNode = new SearchNode(null, this.initState, 0, '\0');
+    //     SearchNode childNode;
+    //     ArrayList<String> actions;
+    //     String path = "";
+    //     boolean goal = false;
+        
+    //     frontier.offer(curNode);
+
+    //     while (!frontier.isEmpty() && !goal) {
+    //         curNode = frontier.poll();
+    //         explored.add(curNode.getState());
+
+    //         if (curNode.getState().isGoal(this.targets)) {
+    //             path = buildSolution(curNode);
+    //             System.out.println("goal");
+    //             goal = true;
+    //         }
+    //         else {
+    //             actions = getActionList(curNode.getState());
+
+    //             for (String action : actions) {
+    //                 childNode = getChild(curNode, action.charAt(0));
+    
+    //                 if (childNode != null && childNode.getState() != null) {
+    //                     System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
+    //                     System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
+    //                     if (!explored.contains(childNode.getState()) && !frontier.contains(childNode) && !childNode.getState().isDeadlock(mapData)) {
+    //                         System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
+    
+    //                         frontier.offer(childNode);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return path;
+    // }
+
+    
+    // public boolean containsCrate(Set<State> stateSet, Set<Position> crates) {
+    //     boolean contains = false;
+    //     ArrayList<State> stateSetList = new ArrayList<State>(stateSet);
+    //     for (int i = 0; i < stateSet.size() && !contains; i++) {
+    //         if (stateSetList.get(i).getCratePositions() == crates) {
+    //             System.out.println("Same");
+    //             contains = true;
+    //         }
+    //     }
+
+    //     return contains;
+    // }
+
+        // public SearchNode getChild(SearchNode node, char action) {
+        
+    //     State curState = node.getState();
+    //     Set<Position> newCrates = new HashSet<Position>(curState.getCratePositions());
+    //     Position newPlayer = curState.getPlayerPosition();
+    //     int cost = node.getCost()+1; 
+    //     int pushCost = node.getPushCost();
+    //     switch(action) {
+    //         case 'u':
+    //             newPlayer = getNewPosition(curState.getPlayerPosition(), action);
+
+    //             if (newCrates.contains(newPlayer)) {
+    //                 Position newCrate = getNewPosition(newPlayer, action);
+    //                 newCrates.remove(newPlayer);
+    //                 newCrates.add(newCrate);
+    //                 pushCost++;
+    //                 if (this.targets.contains(newCrate))
+    //                     cost += 11;
+    //                 else if (heuristics.getDist(newPlayer, this.targets) > heuristics.getDist(newCrate, this.targets))
+    //                     cost += 51;
+    //                 else
+    //                     cost -= 11;
+    //             }
+    //             break;
+    //         case 'd':
+    //             newPlayer = getNewPosition(curState.getPlayerPosition(), action);
+
+    //             if (newCrates.contains(newPlayer)) {
+    //                 Position newCrate = getNewPosition(newPlayer, action);
+    //                 newCrates.remove(newPlayer);
+    //                 newCrates.add(newCrate);
+    //                 pushCost++;
+                    
+    //                 if (this.targets.contains(newCrate))
+    //                     cost += 11;
+    //                 else if (heuristics.getDist(newPlayer, this.targets) > heuristics.getDist(newCrate, this.targets))
+    //                     cost += 31;
+    //                 else
+    //                     cost -= 11;
+    //             }
+    //             break;
+    //         case 'l':
+    //             newPlayer = getNewPosition(curState.getPlayerPosition(), action);
+
+    //             if (newCrates.contains(newPlayer)) {
+    //                 Position newCrate = getNewPosition(newPlayer, action);
+    //                 newCrates.remove(newPlayer);
+    //                 newCrates.add(newCrate);
+    //                 pushCost++;
+                    
+    //                 if (this.targets.contains(newCrate))
+    //                     cost += 11;
+    //                 else if (heuristics.getDist(newPlayer, this.targets) > heuristics.getDist(newCrate, this.targets))
+    //                     cost += 31;
+    //                 else
+    //                     cost -= 11;
+    //             }
+    //             break;
+    //         case 'r':
+    //             newPlayer = getNewPosition(curState.getPlayerPosition(), action);
+
+    //             if (newCrates.contains(newPlayer)) {
+    //                 Position newCrate = getNewPosition(newPlayer, action);
+    //                 newCrates.remove(newPlayer);
+    //                 newCrates.add(newCrate);
+    //                 pushCost++;
+
+    //                 if (this.targets.contains(newCrate))
+    //                     cost += 11;
+    //                 else if (heuristics.getDist(newPlayer, this.targets) > heuristics.getDist(newCrate, this.targets))
+    //                     cost += 31;
+    //                 else
+    //                     cost -= 11;
+    //             }
+    //             break;
+    //     }
+        
+    //     State newState = new State(newPlayer, newCrates);
+    //     SearchNode newNode = new SearchNode(node, newState, cost, action, pushCost);
+
+    //     return newNode;
+    // }
+
+    // public String bfs() {
+    //     Set<State> explored = new HashSet<State>();
+    //     Queue<SearchNode> frontier = new LinkedList<SearchNode>();
+    //     SearchNode curNode = new SearchNode(null, this.initState, 0, '\0');
+    //     SearchNode childNode;
+    //     ArrayList<String> actions;
+    //     String path = "";
+    //     boolean goal = false;
+        
+    //     frontier.offer(curNode);
+
+    //     while (!frontier.isEmpty() && !goal) {
+    //         curNode = frontier.poll();
+    //         explored.add(curNode.getState());
+
+    //         if (curNode.getState().isGoal(this.targets)) {
+    //             path = buildSolution(curNode);
+    //             System.out.println("goal");
+    //             goal = true;
+    //         }
+    //         else {
+    //             actions = getActionList(curNode.getState());
+
+    //             for (String action : actions) {
+    //                 childNode = getChild(curNode, action.charAt(0));
+    
+    //                 if (childNode != null && childNode.getState() != null) {
+    //                     System.out.println("Is " + childNode.getState().hashCode() + " not seen? " + (!explored.contains(childNode.getState()) && !frontier.contains(childNode)));
+    //                     System.out.println("Is it not a deadlock state " + !childNode.getState().isDeadlock(mapData));
+    //                     if (!explored.contains(childNode.getState()) && !frontier.contains(childNode) && !childNode.getState().isDeadlock(mapData)) {
+    //                         System.out.println("Add node " + childNode.getState().getPlayerPosition().getX() + " " + childNode.getState().getPlayerPosition().getY());
+    
+    //                         frontier.offer(childNode);
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+
+    //     return path;
+    // }
+                        // cost -= (int) (heuristics.getDist(newPlayer, this.targets) - heuristics.getDist(newCrate, this.targets)) * 37;
+                        // System.out.println("current cost " + (int) (heuristics.getDist(newPlayer, this.targets) - heuristics.getDist(newCrate, this.targets)));
+                        
+                        // System.out.println("current " + heuristics.getDist(newPlayer, this.targets));
+                        // System.out.println("next " + heuristics.getDist(newCrate, this.targets));
+                        // System.out.println();
+                        // System.out.println(cost);
+                          

@@ -15,11 +15,8 @@ public class Position {
     @Override
     public boolean equals(Object obj) {
         Position position = (Position) obj;
-
-        if (this.x == position.getX() && this.y == position.getY())
-            return true;
-        else
-            return false;
+        
+        return this.x == position.getX() && this.y == position.getY();
     }
 
     @Override

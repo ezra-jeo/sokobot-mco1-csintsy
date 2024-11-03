@@ -5,88 +5,92 @@ import java.util.Set;
 
 public class SokoBot {
 
-  public String solveSokobanPuzzle(int width, int height, char[][] mapData, char[][] itemsData) {
-    /*
-     * YOU NEED TO REWRITE THE IMPLEMENTATION OF THIS METHOD TO MAKE THE BOT SMARTER
-     */
-    /*
-     * Default stupid behavior: Think (sleep) for 3 seconds, and then return a
-     * sequence
-     * that just moves left and right repeatedly.
-     */
-    try {
-      Thread.sleep(3000);
-    } catch (Exception ex) {
-      ex.printStackTrace();
+    public String solveSokobanPuzzle(int width, int height, char[][] mapData, char[][] itemsData) {
+
+        Position initPlayer = getPlayerPosition(itemsData);
+        Set<Position> crates = getCratePositions(itemsData);
+        Set<Position> walls = getWallPositions(mapData);
+        Set<Position> targets = getGoalCratePositions(mapData);
+        State initState = new State(initPlayer, crates);
+        Heuristics heuristics = new Heuristics(targets);
+        Search search = new Search(initState, walls, targets, mapData, heuristics);
+        
+        return search.astar();
     }
-    return "ududududududududududud";
-  }
 
-  public boolean isValidAction(Position nextPosition, char[][] mapData) {
-      boolean isValid;
+    public boolean isValidAction(Position nextPosition, char[][] mapData) {
 
-      if (mapData[nextPosition.getX()][nextPosition.getY()] != '#')
-          isValid = true;
-      else  
-          isValid = false;
+        return mapData[nextPosition.getX()][nextPosition.getY()] != '#';
+    }
 
-        return isValid;
-  }
+    public Position getPlayerPosition(char[][] itemsData) {
+        int rowLength = itemsData.length;
+        int columnLength = itemsData[0].length;
+        Position playerPosition = new Position(0, 0);
 
-  public Position getPlayerPosition(char[][] itemsData) {
-      int rowLength = itemsData.length;
-      int columnLength = itemsData[0].length;
-      int i = 0;
-      int j = 0;
-      boolean found = false;
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < columnLength; j++) {
+                if (itemsData[i][j] == '@') {
+                    playerPosition = new Position(i, j);
+                }
+            }
+        }
 
-      while (!found && i < rowLength) {
-          while (!found && j < columnLength) {
-              if (itemsData[i][j] == '@')
-                  found = true;              
-              j++;
-          }
-          i++;
-      }
-      
-      Position playerPosition = new Position(i - 1, j - 1);
-      return playerPosition;
-  }
+        return playerPosition;
+    }
 
-  public Set<Position> getCratePositions(char[][] itemsData) {
-      int rowLength = itemsData.length;
-      int columnLength = itemsData[0].length;
-      Position cratePosition = null;
-      Set<Position> crateList = new HashSet<>();
+    public HashSet<Position> getCratePositions(char[][] itemsData) {
+        int rowLength = itemsData.length;
+        int columnLength = itemsData[0].length;
+        Position cratePosition = null;
+        HashSet<Position> crateList = new HashSet<>();
 
-      for (int i = 0; i < rowLength; i++) {
-          for (int j = 0; j < columnLength; j++) {
-              if (itemsData[i][j] == '$') {
-                  cratePosition = new Position(i, j);
-                  crateList.add(cratePosition);
-              }
-          }
-      }
-      
-      return crateList;
-  }
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < columnLength; j++) {
+                if (itemsData[i][j] == '$') {
+                    cratePosition = new Position(i, j);
+                    crateList.add(cratePosition);
+                }
+            }
+        }
+        
+        return crateList;
+    }
 
-  public Set<Position> getGoalCratePositions(char[][] mapData) {
-      int rowLength = mapData.length;
-      int columnLength = mapData[0].length;
-      Position goalCratePosition = null;
-      Set<Position> goalCrateList = new HashSet<>();
+    public Set<Position> getGoalCratePositions(char[][] mapData) {
+        int rowLength = mapData.length;
+        int columnLength = mapData[0].length;
+        Position goalCratePosition = null;
+        Set<Position> goalCrateList = new HashSet<>();
 
-      for (int i = 0; i < rowLength; i++) {
-          for (int j = 0; j < columnLength; j++) {
-              if (mapData[i][j] == '.') {
-                  goalCratePosition = new Position(i, j);
-                  goalCrateList.add(goalCratePosition);
-              }
-          }
-      }
-      
-      return goalCrateList;
-  }
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < columnLength; j++) {
+                if (mapData[i][j] == '.') {
+                    goalCratePosition = new Position(i, j);
+                    goalCrateList.add(goalCratePosition);
+                }
+            }
+        }
+        
+        return goalCrateList;
+    }
+
+    public Set<Position> getWallPositions(char[][] mapData) {
+        int rowLength = mapData.length;
+        int columnLength = mapData[0].length;
+        Position wallPosition = null;
+        Set<Position> wallList = new HashSet<>();
+
+        for (int i = 0; i < rowLength; i++) {
+            for (int j = 0; j < columnLength; j++) {
+                if (mapData[i][j] == '#') {
+                    wallPosition = new Position(i, j);
+                    wallList.add(wallPosition);
+                }
+            }
+        }
+        
+        return wallList;
+    }
 
 }

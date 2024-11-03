@@ -1,30 +1,22 @@
 package solver;
 
 import java.util.Set;
-import java.util.Objects;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 // The State class represents the position of the player and crates with respect to the level.
 public class State {
-    // Add previous state?
     private Position playerPosition;
     private Set<Position> cratePositions;
 
-    public State(Position playerPosition, Set<Position> createPositions) {
+    public State(Position playerPosition, Set<Position> cratePositions) {
         this.playerPosition = playerPosition;
-        this.cratePositions = createPositions;
+        this.cratePositions = cratePositions;
     }
 
     public boolean isGoal(Set<Position> goalCratePositions) {
-        boolean isGoal;
-
-        if (this.cratePositions.equals(goalCratePositions))
-            isGoal = true;
-        else
-            isGoal = false;
-
-        return isGoal;
+        return this.cratePositions.equals(goalCratePositions);
     }
 
     public boolean isDeadlock(char[][] mapData) {
@@ -39,9 +31,9 @@ public class State {
             if ((mapData[cratePosition.getX() - 1][cratePosition.getY()] == '#' ||
                  mapData[cratePosition.getX() + 1][cratePosition.getY()] == '#') &&
                 (mapData[cratePosition.getX()][cratePosition.getY() + 1] == '#' ||
-                 mapData[cratePosition.getX()][cratePosition.getY() - 1] == '#'))
+                 mapData[cratePosition.getX()][cratePosition.getY() - 1] == '#') &&
+                 (mapData[cratePosition.getX()][cratePosition.getY()] != '.'))
                 isDeadlock = true;
-
             i++;
         }
 
@@ -49,19 +41,25 @@ public class State {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        State state = (State) obj;
-
-        if (this.playerPosition.equals(state.getPlayerPosition()) && this.cratePositions.equals(state.getCratePositions()))
+    public boolean equals(Object object) {
+        State s = (State)object;
+	    if (object == this || this.hashCode()== s.hashCode()) 
             return true;
-        else
+	    if (object == null || this.getClass() != object.getClass()) 
             return false;
+
+	    return Objects.equals(this.playerPosition, s.getPlayerPosition()) && Objects.equals(this.cratePositions, s.getCratePositions());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerPosition, cratePositions);
-    }
+		int result = 31; 
+        for (Position crate : cratePositions) {
+            result = 53 * result + crate.hashCode();
+        }
+        result = 53 * result + playerPosition.hashCode();
+        return result;
+	}
 
     public Position getPlayerPosition() {
         return this.playerPosition;
