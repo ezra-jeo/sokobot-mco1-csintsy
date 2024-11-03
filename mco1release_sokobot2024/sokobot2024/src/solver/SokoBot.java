@@ -10,7 +10,7 @@ public class SokoBot {
         * YOU NEED TO REWRITE THE IMPLEMENTATION OF THIS METHOD TO MAKE THE BOT SMARTER
     */
         Position initPlayer = getPlayerPosition(itemsData);
-        HashSet<Position> crates = getCratePositions(itemsData);
+        Set<Position> crates = getCratePositions(itemsData);
         Set<Position> walls = getWallPositions(mapData);
         Set<Position> targets = getGoalCratePositions(mapData);
         State initState = new State(initPlayer, crates);

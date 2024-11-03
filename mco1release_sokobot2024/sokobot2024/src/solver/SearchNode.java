@@ -5,12 +5,14 @@ public class SearchNode {
     private State state;
     private int cost;
     private char action;
+    private char lastPush;
 
-    public SearchNode(SearchNode prevNode, State state, int cost, char action) {
+    public SearchNode(SearchNode prevNode, State state, int cost, char action, char lastPush) {
         this.prevNode = prevNode;
         this.state = state;
         this.cost = cost; // incurred cost
         this.action = action;
+        this.lastPush = lastPush;
     }
 
     public SearchNode getPrevNode() {
@@ -27,6 +29,14 @@ public class SearchNode {
     
     public char getAction() {
         return this.action;
+    }
+
+    public char getLastPush() {
+        return this.lastPush;
+    }
+
+    public void setLastPush(char direction) {
+        this.lastPush = direction;
     }
 
     public void setCost(int cost) {

@@ -21,6 +21,7 @@ public class Search {
         this.targets = targets;
         this.mapData = mapData;
         this.deadlocks = getDeadlocks(this.mapData);
+        this.deadlocks = getDeadlocks(this.mapData);
         Search.heuristics = heuristics;
     }
 
@@ -28,7 +29,7 @@ public class Search {
         Set<State> explored = new HashSet<State>();
         Queue<SearchNode> frontier = new PriorityQueue<SearchNode>(11, astarComparator);
         Set<SearchNode> children;
-        SearchNode curNode = new SearchNode(null, this.initState, 0, '\0');
+        SearchNode curNode = new SearchNode(null, this.initState, 0, '\0', '\0');
         String path = "";
         boolean goal = false;
 
@@ -47,17 +48,18 @@ public class Search {
                 children = getChild(curNode);
                 for (SearchNode childNode : children) {
                     if (childNode != null && childNode.getState() != null) {
-                        if (!explored.contains(childNode.getState()) && !frontier.contains(childNode)) {
+                        if (!explored.contains(childNode.getState()) && !frontier.contains(childNode)) { // && !childNode.getState().isDeadlock(mapData)) {
                             frontier.offer(childNode);
                         }
                         else {
                             // Check if cost of node is lesser than the one in the frontier (if it exists)
-                            for (SearchNode node : frontier) {
-                                if (childNode == node && childNode.getCost() < node.getCost())
-                                    node = childNode;
+                            if (frontier.contains(childNode)) {
+                                for (SearchNode node : frontier) {
+                                    if (childNode == node && childNode.getCost() < node.getCost())
+                                        node = childNode;
+                                }
                             }
                         }
-
                     }
                 }
             }
@@ -79,6 +81,7 @@ public class Search {
         actionSequence = actionSequenceReverse.toString();
         return actionSequence;
     } 
+    
 
     public Position getNewPosition(Position entity, char move) {
         Position newPos;
@@ -119,16 +122,41 @@ public class Search {
             Position newCrate = getNewPosition(newPlayer, move.charAt(0));
             Set<Position> newCrates = new HashSet<Position>(state.getCratePositions());
             int cost = node.getCost()+1; 
+            char lastPush = node.getLastPush();
 
             if (!this.walls.contains(newPlayer)) {
                 if (!crates.contains(newPlayer) || (crates.contains(newPlayer) && (!crates.contains(newCrate) && !this.walls.contains(newCrate)) && !this.deadlocks.contains(newCrate))) {
                     if (newCrates.contains(newPlayer)) {
                         newCrates.remove(newPlayer);
                         newCrates.add(newCrate);
-                        cost -= 151;
+
+
+                        if (!this.targets.contains(newPlayer) && this.targets.contains(newCrate)) // if current crate pos is not a target, but next crate pos is.
+                            cost -= 171;
+                        else if (this.targets.contains(newPlayer) && this.targets.contains(newCrate)) // if current crate pos is a target, and next crate pos as well.
+                            cost -= 31;
+                        else if (this.targets.contains(newPlayer) && !this.targets.contains(newCrate)) // if current crate pos is a target, and next crate pos is not.
+                            cost += 171;
+                        else 
+                            cost -= 5;
+                        if (isOpposite(lastPush, move.charAt(0))) // if last push of player is opposite of the next push (case of backtracking)
+                            cost += 101;
+                            
+                        // else
+                        //     cost -= 100;
+
+                            // if (this.targets.contains(newCrate)) 
+                        //     cost -= 151;
+                        // else if (this.targets.contains(newPlayer))
+                        //     cost += 51;
+                        // else if (heuristics.getDist(newPlayer, this.targets) < heuristics.getDist(newCrate, this.targets))
+                        //     cost -= 137;    
+                        // else // reward pushes
+                            // cost -= 151;
                     }
                     State newState = new State(newPlayer, newCrates);
-                    SearchNode newNode = new SearchNode(node, newState, cost, move.charAt(0));
+                    lastPush = move.charAt(0);
+                    SearchNode newNode = new SearchNode(node, newState, cost, move.charAt(0), lastPush);
                     children.add(newNode);
                 }
             }
