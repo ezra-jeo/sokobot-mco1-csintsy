@@ -6,9 +6,7 @@ import java.util.Set;
 public class SokoBot {
 
     public String solveSokobanPuzzle(int width, int height, char[][] mapData, char[][] itemsData) {
-    /*
-        * YOU NEED TO REWRITE THE IMPLEMENTATION OF THIS METHOD TO MAKE THE BOT SMARTER
-    */
+
         Position initPlayer = getPlayerPosition(itemsData);
         Set<Position> crates = getCratePositions(itemsData);
         Set<Position> walls = getWallPositions(mapData);

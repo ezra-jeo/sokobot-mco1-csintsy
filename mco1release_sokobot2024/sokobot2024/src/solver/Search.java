@@ -7,7 +7,6 @@ import java.util.Comparator;
 
 
 public class Search {
-    // BFS
     private State initState;
     private Set<Position> walls;
     private Set<Position> targets;
@@ -48,16 +47,14 @@ public class Search {
                 children = getChild(curNode);
                 for (SearchNode childNode : children) {
                     if (childNode != null && childNode.getState() != null) {
-                        if (!explored.contains(childNode.getState()) && !frontier.contains(childNode)) { // && !childNode.getState().isDeadlock(mapData)) {
+                        if (!explored.contains(childNode.getState()) && !frontier.contains(childNode)) {
                             frontier.offer(childNode);
                         }
                         else {
                             // Check if cost of node is lesser than the one in the frontier (if it exists)
-                            if (frontier.contains(childNode)) {
-                                for (SearchNode node : frontier) {
-                                    if (childNode == node && childNode.getCost() < node.getCost())
-                                        node = childNode;
-                                }
+                            for (SearchNode node : frontier) {
+                                if (childNode == node && childNode.getCost() < node.getCost())
+                                    node = childNode;
                             }
                         }
                     }
@@ -130,7 +127,6 @@ public class Search {
                         newCrates.remove(newPlayer);
                         newCrates.add(newCrate);
 
-
                         if (!this.targets.contains(newPlayer) && this.targets.contains(newCrate)) // if current crate pos is not a target, but next crate pos is.
                             cost -= 171;
                         else if (this.targets.contains(newPlayer) && this.targets.contains(newCrate)) // if current crate pos is a target, and next crate pos as well.
@@ -141,18 +137,6 @@ public class Search {
                             cost -= 5;
                         if (isOpposite(lastPush, move.charAt(0))) // if last push of player is opposite of the next push (case of backtracking)
                             cost += 101;
-                            
-                        // else
-                        //     cost -= 100;
-
-                            // if (this.targets.contains(newCrate)) 
-                        //     cost -= 151;
-                        // else if (this.targets.contains(newPlayer))
-                        //     cost += 51;
-                        // else if (heuristics.getDist(newPlayer, this.targets) < heuristics.getDist(newCrate, this.targets))
-                        //     cost -= 137;    
-                        // else // reward pushes
-                            // cost -= 151;
                     }
                     State newState = new State(newPlayer, newCrates);
                     lastPush = move.charAt(0);
@@ -215,13 +199,6 @@ public class Search {
             int n2Cost = node2.getCost();
 
             return (int) ((n1Cost + heuristics.getHeuristics(node1.getState())) - (n2Cost + heuristics.getHeuristics(node2.getState()))); 
-        }
-    };
-
-    public static Comparator<SearchNode> gbfsComparator = new Comparator<SearchNode>() {
-        @Override
-        public int compare(SearchNode node1, SearchNode node2) {
-            return (int) ((heuristics.getHeuristics(node1.getState())) - (heuristics.getHeuristics(node2.getState()))); 
         }
     };
 }
